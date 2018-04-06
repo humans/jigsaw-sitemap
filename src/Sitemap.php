@@ -42,8 +42,10 @@ class Sitemap
                 ],
             ]);
 
-            var_dump($this->container['cwd']);
-            // file_put_contents(__DIR__ . '/source/sitemap.xml', $sitemap);
+            file_put_contents(
+                $this->container['cwd'] . '/source/sitemap.xml',
+                $sitemap
+            );
         });
     }
 }
