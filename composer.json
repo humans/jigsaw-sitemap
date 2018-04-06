@@ -1,0 +1,15 @@
+{
+    "name": "artisan/jigsaw-sitemap",
+    "description": "A site map hook for Jigsaw CMS.",
+    "type": "library",
+    "require": {
+        "spatie/array-to-xml": "^2.7"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jaggy Gauran",
+            "email": "i.am@jag.gy"
+        }
+    ]
+}
