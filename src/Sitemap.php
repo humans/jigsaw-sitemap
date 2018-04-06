@@ -1,6 +1,6 @@
 <?php
 
-namespace Artisan\Jigsaw\Sitemap;
+namespace Artisan\Jigsaw;
 
 use Spatie\ArrayToXml\ArrayToXml;
 
