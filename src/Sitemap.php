@@ -2,18 +2,37 @@
 
 namespace Artisan\Jigsaw;
 
+use Illuminate\Container\Container;
 use Spatie\ArrayToXml\ArrayToXml;
 
 class Sitemap
 {
-    public $container;
-    public $urls = [];
+    protected $collections;
 
-    public function __construct($container)
+    protected $container;
+
+    protected $urls = [];
+
+    /**
+     * Create a new Sitemap instance.
+     *
+     * @param  Container  $container  This container is from Jigsaw's bootstrap
+     * @return void
+     */
+    public function __construct(Container $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * Prefill the sitemap with URLs.
+     *
+     * Here you can manually add some pages that aren't hooked up to
+     * collections.
+     *
+     * @param  array  $urls
+     * @return $this
+     */
     public function fill($urls)
     {
         $this->urls = $urls;
@@ -21,10 +40,28 @@ class Sitemap
         return $this;
     }
 
-    public function create(...$collections)
+    /**
+     * Set the collections to create sitemap URLs for.
+     *
+     * @param  array  $collections
+     * @return $this
+     */
+    public function collections(...$collections)
     {
-        $this->container->events->afterCollections(function ($jigsaw) use ($collections) {
-            $objects = $jigsaw->getCollections()->only($collections)->flatten(1)->map(function ($item) {
+        $this->collections = $collections;
+
+        return $this;
+    }
+
+    /**
+     * Write the sitemap on the source directory.
+     *
+     * @return void
+     */
+    public function create()
+    {
+        $this->container->events->afterCollections(function ($jigsaw) {
+            $objects = $jigsaw->getCollections()->only($this->collections)->flatten(1)->map(function ($item) {
                 return [
                     'loc'        => $item->getUrl(),
                     'lastmod'    => date('Y-m-d', $item->date),
